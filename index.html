@@ -122,6 +122,21 @@ const engine = new Engine(GODOT_CONFIG);
 	let initializing = true;
 	let statusMode = '';
 
+    // --- NEW CODE START ---
+    // Grab the canvas to intercept touch events
+	const canvas = document.getElementById('canvas');
+
+	// Function to stop the browser from synthesizing mouse clicks from touches
+	const blockSyntheticMouse = (e) => {
+		// This prevents the shell from firing 'mousedown', 'mouseup', and 'click'
+		e.preventDefault(); 
+	};
+
+	// Attach the listeners with { passive: false } so preventDefault() is allowed to run
+	canvas.addEventListener('touchstart', blockSyntheticMouse, { passive: false });
+	canvas.addEventListener('touchmove', blockSyntheticMouse, { passive: false });
+	canvas.addEventListener('touchend', blockSyntheticMouse, { passive: false });
+	canvas.addEventListener('touchcancel', blockSyntheticMouse, { passive: false });
 	function setStatusMode(mode) {
 		if (statusMode === mode || !initializing) {
 			return;
